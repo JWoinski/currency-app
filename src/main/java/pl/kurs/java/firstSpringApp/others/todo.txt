@@ -1,0 +1,14 @@
+spring vs sperig  boot
+spring context (IOC)
+czym sa beany
+tomcat
+servlety
+thymleaf
+wzorce projektowe (fasada)
+
+udostepnij EPy (endpointy) ktore umozliwia userowi podac swoje imie, a nastepnie wyswielttimy mu informacje "Witaj ${imie}!"
+
+udostpemnij EP kalkulatora (czyli chcemy miec mozliwosc wykonywania prostych opreracji [+,/,*-,-]) num1, num2, operator [dropdown] + guzik i po kliknieciu guzika dostajemy wynik
+
+
+zassadniczo to musisz wykonac requesty z poziiomu FE (uzyj do tego formularzy z HTML z domieszka funkcji thymleafa)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kantor</title>
+</head>
+<body>
+<h1>Exchange Office Online</h1>
+<form method="post" th:action="@{/exchange}" th:object="${exchangeForm}">
+    <p> Amount: <input th:field=*{amount} type="number"></p>
+    From:
+    <select th:field=*{currencyFrom}>
+        <option th:each="currency : ${currencies}" th:value="${currency}" th:text="${currency}"></option>
+    </select><br>
+    To:
+    <select th:field=*{currencyTo}>
+        <option th:each="c: ${currencies}" th:value="${c}" th:text="${c}"></option>
+    </select><br>
+    <button type="submit">Calculate</button>
+</form>
+<br>
+<div th:if="${result}">
+    <p th:text="'Result:' + ${result}"></p>
+</div>
+<div th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
+</body>
+</html>
