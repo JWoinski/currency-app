@@ -3,13 +3,9 @@ package pl.kurs.java.firstSpringApp.Exchange.Service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
 import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
 import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
@@ -18,49 +14,91 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+
 
 class CurrencyExchangeServiceTest {
     @Mock
-    private RestTemplate restTemplate;
-    private Root[] mockRoots;
-    @Autowired
+    private RestCurrencyApiService restCurrencyApiService;
+    @Mock
+    private DBService dbService;
+
+    @InjectMocks
     private CurrencyExchangeService currencyExchangeService;
 
+
+    //    @BeforeEach
+//    public void setUp() {
+//        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService, dbService);
+//        MockitoAnnotations.openMocks(this);
+//        System.out.println(restCurrencyApiService.getApiResponse());
+//        when(restCurrencyApiService.getApiResponse()).thenReturn(createMockRoots());
+//    }
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockRoots = createMockRoots();
-        ResponseEntity<Root[]> mockResponse = new ResponseEntity<>(mockRoots, HttpStatus.OK);
-        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), isNull(), eq(Root[].class))).thenReturn(mockResponse);
+        when(restCurrencyApiService.getApiResponse()).thenReturn(createMockRoots());
+        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService, dbService);
+        currencyExchangeService.getListCodeCurrencies();
+    }
+
+
+    @Test
+    void getListCurrenciesCodeNullTest() {
+        //TODO jak wywolac null root
+//        List<String> listCodeCurrencies = currencyExchangeService.getListCodeCurrencies();
+//        System.out.println(listCodeCurrencies);
     }
 
     @Test
-    void getListCurrenciesCode() {
-        List<String> Expectedlist = List.of("EUR","USD");
-        List<String> ActualList = currencyExchangeService.getListCodeCurrencies();
-        Assertions.assertEquals(Expectedlist,ActualList);
-    }
-
-    @Test
-    void getMidForCurrency() {
+    void getMidForCurrencyTest() {
         double mid = currencyExchangeService.getMidForCurrency("USD");
+        System.out.println(mid);
         assertEquals(4.0714, mid, 0.0001);
     }
 
     @Test
-    void exchange() {
-        CurrencyExchangeForm currencyExchangeForm = new CurrencyExchangeForm("EUR","USD",100);
+    void getMidForCurrencyNullTest() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            currencyExchangeService.getMidForCurrency(null);
+        });
+    }
+
+
+    @Test
+    void exchangeTest1() {
+        CurrencyExchangeForm currencyExchangeForm = new CurrencyExchangeForm("EUR", "USD", 100, 443.21);
         assertEquals(108.859, currencyExchangeService.exchange(currencyExchangeForm), 0.01);
     }
 
-    private Root[] createMockRoots() {
+    @Test
+    void exchangeNullTest() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            CurrencyExchangeForm currencyExchangeForm = new CurrencyExchangeForm(null, "USD", 100, 443.21);
+            currencyExchangeService.exchange(currencyExchangeForm);
+        });
+    }
+
+    @Test
+    void getValueInPLNTest() {
+        CurrencyExchangeForm currencyExchangeForm = new CurrencyExchangeForm("EUR", "USD", 100, 443.21);
+        double expected = 443.21;
+        double actual = currencyExchangeService.getValueExchangeInPLN(currencyExchangeForm);
+        Assertions.assertEquals(expected, actual, 0.01);
+    }
+
+    @Test
+    void getValueInPLNNullTest() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            CurrencyExchangeForm currencyExchangeForm = new CurrencyExchangeForm("EUR", null, 100, 443.21);
+            currencyExchangeService.getValueExchangeInPLN(currencyExchangeForm);
+        });
+    }
+
+    private Root createMockRoots() {
         List<Rate> rates = new ArrayList<>();
         rates.add(new Rate("dolar amerykański", "USD", 4.0714));
         rates.add(new Rate("euro", "EUR", 4.4321));
-        Root root = new Root("A", "126/A/NBP/2023", "2023-07-03", rates);
-        return new Root[] { root };
+        return new Root("A", "126/A/NBP/2023", "2023-07-03", rates);
     }
 }

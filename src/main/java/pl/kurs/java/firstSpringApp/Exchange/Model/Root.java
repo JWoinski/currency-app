@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Root{
+public class Root {
     private String table;
     private String no;
     private String effectiveDate;

@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class Rate {
-    private String currency;
-    private String code;
-    private double mid;
+@NoArgsConstructor
+@AllArgsConstructor
+public class GraphForm {
+    private String name;
 }

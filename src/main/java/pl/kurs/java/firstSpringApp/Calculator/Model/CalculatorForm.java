@@ -3,9 +3,6 @@ package pl.kurs.java.firstSpringApp.Calculator.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.kurs.java.firstSpringApp.Calculator.Service.Operator;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

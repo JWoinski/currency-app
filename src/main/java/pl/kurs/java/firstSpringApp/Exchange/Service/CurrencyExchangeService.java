@@ -1,28 +1,21 @@
 package pl.kurs.java.firstSpringApp.Exchange.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
 import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
+import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
 
-
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CurrencyExchangeService {
-    private static final String URL = "http://api.nbp.pl/api/exchangerates/tables/a/?format=json";
-
-    @Autowired
-    private final RestTemplate restTemplate;
+    private final RestCurrencyApiService restCurrencyApiService;
     private final DBService dbService;
-    private  Root root;
+    private Root root;
 
     public List<String> getListCodeCurrencies() {
         refreshCurrencyRates();
@@ -31,12 +24,8 @@ public class CurrencyExchangeService {
                 .stream()
                 .flatMap(rates -> rates.stream().map(Rate::getCode))
                 .collect(Collectors.toList());
-        if (list.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            list.add("PLN");
-            return list;
-        }
+        list.add("PLN");
+        return list;
     }
 
     double getMidForCurrency(String currency) {
@@ -56,11 +45,13 @@ public class CurrencyExchangeService {
         double amount = exchangeForm.getAmount();
         String currencyFrom = exchangeForm.getCurrencyFrom();
         String currencyTo = exchangeForm.getCurrencyTo();
+        double valueExchangeInPLN = getValueExchangeInPLN(exchangeForm);
         if (exchangeForm == null || currencyFrom == null || currencyTo == null) {
             throw new IllegalArgumentException("Null values in ExchangeForm");
         }
         refreshCurrencyRates();
-        dbService.saveDetailsOfExchangeToDB(exchangeForm);
+        //TODO SPY
+        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
 
         if (currencyFrom.equals(currencyTo)) {
             return amount;
@@ -77,10 +68,20 @@ public class CurrencyExchangeService {
         }
     }
 
+    public double getValueExchangeInPLN(CurrencyExchangeForm exchangeForm) {
+        if (exchangeForm.getCurrencyTo() == null || exchangeForm.getCurrencyFrom() == null) {
+            throw new IllegalArgumentException("One of currency is null");
+        }
+        if (exchangeForm.getCurrencyFrom().equals("PLN")) {
+            return exchangeForm.getAmount();
+        } else if (exchangeForm.getCurrencyTo().equals("PLN")) {
+            return exchangeForm.getAmount() * getMidForCurrency(exchangeForm.getCurrencyFrom());
+        } else {
+            return (exchangeForm.getAmount() * getMidForCurrency(exchangeForm.getCurrencyFrom()));
+        }
+    }
+
     private void refreshCurrencyRates() {
-        ResponseEntity<Root[]> exchange = restTemplate.exchange(URL, HttpMethod.GET, null, Root[].class);
-        Optional.ofNullable(exchange.getBody())
-                .flatMap(roots -> Arrays.stream(roots).findFirst())
-                .ifPresent(root -> this.root = root);
+        root = restCurrencyApiService.getApiResponse();
     }
 }

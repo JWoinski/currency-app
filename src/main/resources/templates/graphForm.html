@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Graph</title>
+</head>
+<body>
+<h1>Graph Display</h1>
+<form method="post" th:action="@{/graph/execute}" th:object="${graphForm}">
+    <select th:field="*{name}">
+        <option th:each="t : ${charts}" th:value="${t}" th:text="${t}"></option>
+    </select>
+    <button type="submit">Display </button>
+</form>
+<br>
+</body>
+</html>
