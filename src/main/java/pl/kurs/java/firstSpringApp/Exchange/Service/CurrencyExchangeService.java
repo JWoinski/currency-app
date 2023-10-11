@@ -1,10 +1,11 @@
-package pl.kurs.java.firstSpringApp.Exchange.Service;
+package pl.kurs.java.firstSpringApp.exchange.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
+import pl.kurs.java.firstSpringApp.exchange.model.CurrencyExchangeForm;
+import pl.kurs.java.firstSpringApp.exchange.model.Rate;
+import pl.kurs.java.firstSpringApp.exchange.model.Root;
+import pl.kurs.java.firstSpringApp.exchange.service.dataBaseService.CurrencyFormRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CurrencyExchangeService {
     private final RestCurrencyApiService restCurrencyApiService;
-    private final DBService dbService;
+    //    private final DBService dbService;
+    private final CurrencyFormRepository currencyFormRepository;
     private Root root;
 
     public List<String> getListCodeCurrencies() {
@@ -42,7 +44,7 @@ public class CurrencyExchangeService {
     }
 
     public double exchange(CurrencyExchangeForm exchangeForm) {
-        double amount = exchangeForm.getAmount();
+        int amount = exchangeForm.getAmount();
         String currencyFrom = exchangeForm.getCurrencyFrom();
         String currencyTo = exchangeForm.getCurrencyTo();
         double valueExchangeInPLN = getValueExchangeInPLN(exchangeForm);
@@ -51,7 +53,8 @@ public class CurrencyExchangeService {
         }
         refreshCurrencyRates();
         //TODO SPY
-        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
+//        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
+        currencyFormRepository.save(new CurrencyExchangeForm(currencyFrom, currencyTo, amount, valueExchangeInPLN));
 
         if (currencyFrom.equals(currencyTo)) {
             return amount;
@@ -80,7 +83,6 @@ public class CurrencyExchangeService {
             return (exchangeForm.getAmount() * getMidForCurrency(exchangeForm.getCurrencyFrom()));
         }
     }
-
     private void refreshCurrencyRates() {
         root = restCurrencyApiService.getApiResponse();
     }

@@ -22,7 +22,7 @@ public class BeanConfig {
     public Connection connection() throws SQLException {
         final String url = "jdbc:mysql://localhost:3306/exchange_office";
         final String username = "root";
-        final String password = "rootroot#123";
+        final String password = "rootroot";
         return getConnection(url, username, password);
     }
 }

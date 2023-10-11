@@ -1,6 +1,6 @@
-package pl.kurs.java.firstSpringApp.Exchange.Service;
+package pl.kurs.java.firstSpringApp.exchange.operationChart;
 
-import pl.kurs.java.firstSpringApp.Exchange.Model.GraphResult;
+import pl.kurs.java.firstSpringApp.exchange.model.GraphResult;
 
 import java.util.Map;
 

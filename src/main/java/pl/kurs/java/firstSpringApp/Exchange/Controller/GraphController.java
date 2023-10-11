@@ -1,23 +1,22 @@
-package pl.kurs.java.firstSpringApp.Exchange.Controller;
+package pl.kurs.java.firstSpringApp.exchange.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.kurs.java.firstSpringApp.Exchange.Model.GraphForm;
-import pl.kurs.java.firstSpringApp.Exchange.Model.GraphResult;
-import pl.kurs.java.firstSpringApp.Exchange.Service.GraphFacade;
+import org.springframework.web.bind.annotation.*;
+import pl.kurs.java.firstSpringApp.exchange.model.GraphForm;
+import pl.kurs.java.firstSpringApp.exchange.model.GraphResult;
+import pl.kurs.java.firstSpringApp.exchange.service.CurrencyExchangeService;
+import pl.kurs.java.firstSpringApp.exchange.service.GraphFacade;
 
 import java.sql.SQLException;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/graph")
+@RequestMapping(value = "/graph", method = RequestMethod.GET)
 public class GraphController {
     private final GraphFacade graphFacade;
+    private final CurrencyExchangeService currencyExchangeService;
 
     @GetMapping
     public String showGraphForm(Model model) {

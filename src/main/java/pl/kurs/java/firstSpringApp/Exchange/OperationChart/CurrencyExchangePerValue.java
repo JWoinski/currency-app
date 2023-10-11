@@ -1,17 +1,17 @@
-package pl.kurs.java.firstSpringApp.Exchange.OperationChart;
+package pl.kurs.java.firstSpringApp.exchange.operationChart;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.kurs.java.firstSpringApp.Exchange.Model.GraphResult;
-import pl.kurs.java.firstSpringApp.Exchange.Service.DBService;
-import pl.kurs.java.firstSpringApp.Exchange.Service.ExchangeChart;
+import pl.kurs.java.firstSpringApp.exchange.model.GraphResult;
+import pl.kurs.java.firstSpringApp.exchange.service.dataBaseService.CurrencyFormRepository;
 
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class CurrencyExchangePerValue implements ExchangeChart {
-    private final DBService dbService;
+    //    private final DBService dbService;
+    private final CurrencyFormRepository currencyFormRepository;
 
     @Override
     public String getName() {
@@ -23,10 +23,9 @@ public class CurrencyExchangePerValue implements ExchangeChart {
 
         return new GraphResult(getName(), "Value of exchanges", "Currencies", getValuesToSurveyMap());
     }
-
     @Override
     public Map<String, Integer> getValuesToSurveyMap() {
-        return dbService.getCurrencyExchangePerValue();
-
+//        return dbService.getCurrencyExchangePerValue();
+        return currencyFormRepository.getCurrencyExchangePerValue();
     }
 }

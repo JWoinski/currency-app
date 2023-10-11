@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Calculator.Model;
+package pl.kurs.java.firstSpringApp.calculator.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

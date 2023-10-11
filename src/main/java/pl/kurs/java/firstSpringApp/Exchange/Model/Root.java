@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Exchange.Model;
+package pl.kurs.java.firstSpringApp.exchange.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

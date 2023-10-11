@@ -12,7 +12,6 @@ public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String testValue;
     private boolean testBooleanValue;
 

@@ -1,12 +1,12 @@
-package pl.kurs.java.firstSpringApp.Exchange.Service;
+package pl.kurs.java.firstSpringApp.exchange.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
+import pl.kurs.java.firstSpringApp.exchange.model.Rate;
+import pl.kurs.java.firstSpringApp.exchange.model.Root;
 
 import java.util.Arrays;
 import java.util.List;

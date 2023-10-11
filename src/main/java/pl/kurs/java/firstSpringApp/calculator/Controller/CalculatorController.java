@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Calculator.Controller;
+package pl.kurs.java.firstSpringApp.calculator.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.kurs.java.firstSpringApp.Calculator.Model.CalculatorForm;
-import pl.kurs.java.firstSpringApp.Calculator.Service.OperatorFacade;
+import pl.kurs.java.firstSpringApp.calculator.Model.CalculatorForm;
+import pl.kurs.java.firstSpringApp.calculator.Service.OperatorFacade;
 
 @Controller
 @RequiredArgsConstructor

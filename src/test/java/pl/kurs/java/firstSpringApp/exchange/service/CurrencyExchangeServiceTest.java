@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Exchange.Service;
+package pl.kurs.java.firstSpringApp.exchange.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
-import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
+import pl.kurs.java.firstSpringApp.exchange.model.CurrencyExchangeForm;
+import pl.kurs.java.firstSpringApp.exchange.model.Rate;
+import pl.kurs.java.firstSpringApp.exchange.model.Root;
+import pl.kurs.java.firstSpringApp.exchange.service.dataBaseService.CurrencyFormRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ class CurrencyExchangeServiceTest {
     @Mock
     private RestCurrencyApiService restCurrencyApiService;
     @Mock
-    private DBService dbService;
+//    private DBService dbService;
+    private CurrencyFormRepository currencyFormRepository;
 
     @InjectMocks
     private CurrencyExchangeService currencyExchangeService;
@@ -38,7 +40,7 @@ class CurrencyExchangeServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         when(restCurrencyApiService.getApiResponse()).thenReturn(createMockRoots());
-        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService, dbService);
+        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService, currencyFormRepository);
         currencyExchangeService.getListCodeCurrencies();
     }
 

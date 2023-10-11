@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Exchange.Controller;
+package pl.kurs.java.firstSpringApp.exchange.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
-import pl.kurs.java.firstSpringApp.Exchange.Service.CurrencyExchangeService;
+import pl.kurs.java.firstSpringApp.exchange.model.CurrencyExchangeForm;
+import pl.kurs.java.firstSpringApp.exchange.service.CurrencyExchangeService;
 
 @Controller
 @RequiredArgsConstructor

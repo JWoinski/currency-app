@@ -1,7 +1,7 @@
-package pl.kurs.java.firstSpringApp.Calculator.Service;
+package pl.kurs.java.firstSpringApp.calculator.Service;
 
 import org.springframework.stereotype.Component;
-import pl.kurs.java.firstSpringApp.Calculator.Model.CalculatorForm;
+import pl.kurs.java.firstSpringApp.calculator.Model.CalculatorForm;
 
 import java.util.ArrayList;
 import java.util.List;

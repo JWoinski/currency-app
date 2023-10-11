@@ -1,12 +1,10 @@
-package pl.kurs.java.firstSpringApp.others;
+package pl.kurs.java.firstSpringApp.testJpa;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.kurs.java.firstSpringApp.testJpa.TestEntity;
-import pl.kurs.java.firstSpringApp.testJpa.TestEntityRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Calculator.Service;
+package pl.kurs.java.firstSpringApp.calculator.Service;
 
 public interface Operator {
     double execute(int num1, int num2);

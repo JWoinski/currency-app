@@ -1,4 +1,4 @@
-package pl.kurs.java.firstSpringApp.Greet;
+package pl.kurs.java.firstSpringApp.greet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

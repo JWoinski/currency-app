@@ -1,7 +1,7 @@
-package pl.kurs.java.firstSpringApp.Exchange.Service;
+package pl.kurs.java.firstSpringApp.exchange.service.dataBaseService;
 
 import org.springframework.stereotype.Service;
-import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
+import pl.kurs.java.firstSpringApp.exchange.model.CurrencyExchangeForm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class DBService {
     public DBService() throws SQLException {
         final String url = "jdbc:mysql://localhost:3306/exchange_office";
         final String username = "root";
-        final String password = "rootroot#123";
+        final String password = "rootroot";
         connection = getConnection(url, username, password);
     }
 
