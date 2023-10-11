@@ -20,6 +20,7 @@ public class CurrencyExchangePerValue implements ExchangeChart {
 
     @Override
     public GraphResult execute() {
+        System.out.println("dupa");
 
         return new GraphResult(getName(), "Value of exchanges", "Currencies", getValuesToSurveyMap());
     }
