@@ -20,8 +20,6 @@ import static org.mockito.Mockito.when;
 class CurrencyExchangeServiceTest {
     @Mock
     private RestCurrencyApiService restCurrencyApiService;
-//    @Mock
-//    private DBService dbService;
 
     @InjectMocks
     private CurrencyExchangeService currencyExchangeService;
@@ -97,8 +95,8 @@ class CurrencyExchangeServiceTest {
 
     private Root createMockRoots() {
         List<Rate> rates = new ArrayList<>();
-        rates.add(new Rate("dolar amerykański", "USD", 4.0714));
-        rates.add(new Rate("euro", "EUR", 4.4321));
-        return new Root("A", "126/A/NBP/2023", "2023-07-03", rates);
+        rates.add(new Rate("dolar amerykański", "USD", 4.0714,null));
+        rates.add(new Rate("euro", "EUR", 4.4321,null));
+        return new Root("A", "126/A/NBP/2023", "2023-07-03",null,null, rates);
     }
 }
