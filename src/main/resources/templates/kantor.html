@@ -1,28 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Kantor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Heading styling */
+        h1 {
+            color: #2b6cb0;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        form p {
+            margin: 15px 0;
+        }
+
+        label, select, input[type="number"] {
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            background-color: #edf2f7;
+        }
+
+        /* Button styling */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #2b6cb0;
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2c5282;
+        }
+
+        /* Result and error styling */
+        div[th\\:if] {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        div[th\\:if="${result}"] {
+            background-color: #c6f6d5;
+            color: #2f855a;
+        }
+
+        div[th\\:if="${error}"] {
+            background-color: #fed7d7;
+            color: #c53030;
+        }
+    </style>
 </head>
 <body>
-<h1>Exchange Office Online</h1>
-<form method="post" th:action="@{/exchange}" th:object="${exchangeForm}">
-    <p> Amount: <input th:field=*{amount} type="number"></p>
-    From:
-    <select th:field=*{currencyFrom}>
-        <option th:each="currency : ${currencies}" th:value="${currency}" th:text="${currency}"></option>
-    </select><br>
-    To:
-    <select th:field=*{currencyTo}>
-        <option th:each="c: ${currencies}" th:value="${c}" th:text="${c}"></option>
-    </select><br>
-    <button type="submit">Calculate</button>
-</form>
-<br>
-<div th:if="${result}">
-    <p th:text="'Result:' + ${result}"></p>
-</div>
-<div th:if="${error}">
-    <p th:text="${error}"></p>
+<div class="container">
+    <form method="post" th:action="@{/exchange}" th:object="${exchangeForm}">
+        <h1>Exchange Office Online</h1>
+
+        <p> Amount: <input th:field="*{amount}" type="number"></p>
+
+        From:
+        <select th:field="*{currencyFrom}">
+            <option th:each="currency : ${currencies}" th:value="${currency}" th:text="${currency}"></option>
+        </select><br>
+
+        To:
+        <select th:field="*{currencyTo}">
+            <option th:each="c : ${currencies}" th:value="${c}" th:text="${c}"></option>
+        </select><br>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <div th:if="${result}">
+        <p th:text="'Result:' + ${result}"></p>
+    </div>
+    <div th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
 </div>
 </body>
 </html>
