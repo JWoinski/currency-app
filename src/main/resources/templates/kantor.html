@@ -357,6 +357,12 @@
             return;
         }
 
+        if (endDate > today) {
+            event.preventDefault();
+            alert('End date cannot be later than today.');
+            return;
+        }
+
         // Jeśli startDate jest późniejsza niż endDate
         if (startDate > endDate) {
             event.preventDefault();
