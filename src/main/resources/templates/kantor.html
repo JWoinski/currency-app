@@ -342,6 +342,35 @@
     } else {
         console.log("Brak danych do wyświetlenia wykresu.");
     }
+    // Walidacja formularza
+    document.getElementById("currency-form").onsubmit = function (event) {
+
+        // Walidacja dat
+        var startDate = document.querySelector('[name="startDate"]').value;
+        var endDate = document.querySelector('[name="endDate"]').value;
+        var today = new Date().toISOString().split('T')[0]; // dzisiejsza data w formacie YYYY-MM-DD
+
+        // Jeśli startDate jest późniejsza niż dzisiaj
+        if (startDate > today) {
+            event.preventDefault();
+            alert('Start date cannot be later than today.');
+            return;
+        }
+
+        // Jeśli startDate jest późniejsza niż endDate
+        if (startDate > endDate) {
+            event.preventDefault();
+            alert('Start date cannot be after end date.');
+            return;
+        }
+
+        // Jeśli startDate jest taka sama jak endDate
+        if (startDate === endDate) {
+            event.preventDefault();
+            alert('Type dates longer than 1 day.');
+            return;
+        }
+    }
 </script>
 </body>
 </html>

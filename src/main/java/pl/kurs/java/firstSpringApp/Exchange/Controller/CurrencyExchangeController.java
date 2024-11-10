@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
 import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeRatesForm;
 import pl.kurs.java.firstSpringApp.Exchange.Service.CurrencyExchangeService;
-import pl.kurs.java.firstSpringApp.Exchange.Service.RestCurrencyApiService;
 
 import java.util.List;
 

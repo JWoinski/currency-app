@@ -11,5 +11,4 @@ public class CurrencyExchangeForm {
     private String currencyFrom;
     private String currencyTo;
     private int amount;
-    private double valueInPLN;
 }

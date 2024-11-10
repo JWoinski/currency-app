@@ -30,6 +30,7 @@ public class CurrencyExchangeService {
     }
 
     double getMidForCurrency(String currency) {
+        refreshCurrencyRates();
         if (currency == null) {
             throw new IllegalArgumentException("Currency is null");
         }
@@ -43,18 +44,16 @@ public class CurrencyExchangeService {
     }
 
     public double exchange(CurrencyExchangeForm exchangeForm) {
+        validateExchangeForm(exchangeForm);
+
         double amount = exchangeForm.getAmount();
         String currencyFrom = exchangeForm.getCurrencyFrom();
         String currencyTo = exchangeForm.getCurrencyTo();
-        double valueExchangeInPLN = getValueExchangeInPLN(exchangeForm);
-        if (exchangeForm == null || currencyFrom == null || currencyTo == null) {
-            throw new IllegalArgumentException("Null values in ExchangeForm");
-        }
-        refreshCurrencyRates();
 
         if (currencyFrom.equals(currencyTo)) {
             return amount;
         }
+
         double midFrom = getMidForCurrency(currencyFrom);
         double midTo = getMidForCurrency(currencyTo);
 
@@ -68,20 +67,31 @@ public class CurrencyExchangeService {
     }
 
     public double getValueExchangeInPLN(CurrencyExchangeForm exchangeForm) {
-        if (exchangeForm.getCurrencyTo() == null || exchangeForm.getCurrencyFrom() == null) {
-            throw new IllegalArgumentException("One of currency is null");
-        }
-        if (exchangeForm.getCurrencyFrom().equals("PLN")) {
-            return exchangeForm.getAmount();
-        } else if (exchangeForm.getCurrencyTo().equals("PLN")) {
-            return exchangeForm.getAmount() * getMidForCurrency(exchangeForm.getCurrencyFrom());
+        validateExchangeForm(exchangeForm);
+
+        double amount = exchangeForm.getAmount();
+        String currencyFrom = exchangeForm.getCurrencyFrom();
+        String currencyTo = exchangeForm.getCurrencyTo();
+
+        if (currencyFrom.equals("PLN")) {
+            return amount;
+        } else if (currencyTo.equals("PLN")) {
+            return amount * getMidForCurrency(currencyFrom);
         } else {
-            return (exchangeForm.getAmount() * getMidForCurrency(exchangeForm.getCurrencyFrom()));
+            return amount * getMidForCurrency(currencyFrom);
+        }
+    }
+
+    private void validateExchangeForm(CurrencyExchangeForm exchangeForm) {
+        if (exchangeForm == null || exchangeForm.getCurrencyFrom() == null || exchangeForm.getCurrencyTo() == null) {
+            throw new IllegalArgumentException("Invalid exchange form");
         }
     }
 
     private void refreshCurrencyRates() {
-        root = restCurrencyApiService.getApiResponse();
+        if(root == null){
+            root = restCurrencyApiService.getApiResponse();
+        }
     }
 
     public List<Rate> getExchangeRatesForDatePeriod(CurrencyExchangeRatesForm exchangeRatesForm) {
@@ -103,20 +113,14 @@ public class CurrencyExchangeService {
             return "";
         }
 
-        StringBuilder dates = new StringBuilder("[");
-        StringBuilder rates = new StringBuilder("[");
+        String dates = exchangeRatesForDatePeriod.stream()
+                .map(rate -> "\"" + rate.getEffectiveDate() + "\"")
+                .collect(Collectors.joining(","));
 
-        for (Rate rate : exchangeRatesForDatePeriod) {
-            dates.append("\"").append(rate.getEffectiveDate()).append("\",");
-            rates.append(rate.getMid()).append(",");
-        }
+        String rates = exchangeRatesForDatePeriod.stream()
+                .map(rate -> String.valueOf(rate.getMid()))
+                .collect(Collectors.joining(","));
 
-        dates.deleteCharAt(dates.length() - 1);
-        rates.deleteCharAt(rates.length() - 1);
-
-        dates.append("]");
-        rates.append("]");
-
-        return "{ \"labels\": " + dates + ", \"data\": " + rates + " }";
+        return String.format("{ \"labels\": [%s], \"data\": [%s] }", dates, rates);
     }
 }
