@@ -13,5 +13,7 @@ public class Root {
     private String table;
     private String no;
     private String effectiveDate;
+    private String currency;
+    private String code;
     private List<Rate> rates;
 }

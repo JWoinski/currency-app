@@ -15,9 +15,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RestCurrencyApiService {
-    private final RestTemplate restTemplate;
-
     private static final String URL = "http://api.nbp.pl/api/exchangerates/tables/a/?format=json";
+    private static final String CURRENCY_URL = "https://api.nbp.pl/api/exchangerates/rates/a/";
+    private final RestTemplate restTemplate;
 
     public Root getApiResponse() {
         ResponseEntity<Root[]> exchange = restTemplate.exchange(URL, HttpMethod.GET, null, Root[].class);
@@ -25,6 +25,18 @@ public class RestCurrencyApiService {
                 .flatMap(roots -> Arrays.stream(roots).findFirst())
                 .filter(this::validate)
                 .orElseThrow(() -> new IllegalStateException("RootValidateException"));
+    }
+
+    public Root getApiResponse(String currency, String startDate, String endDate) {
+        String currencyUrl = getCurrencyUrl(currency, startDate, endDate);
+        ResponseEntity<Root> exchange = restTemplate.exchange(currencyUrl, HttpMethod.GET, null, Root.class);
+        return Optional.ofNullable(exchange.getBody())
+                .filter(this::validate)
+                .orElseThrow(() -> new IllegalStateException("RootValidateException"));
+    }
+
+    String getCurrencyUrl(String currency, String startDate, String endDate) {
+        return CURRENCY_URL + currency + "/" + startDate + "/" + endDate + "/?format=json";
     }
 
     private boolean validate(Root root) {

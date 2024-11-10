@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class Rate {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CurrencyExchangeRatesForm {
+    private String startDate;
+    private String endDate;
     private String currency;
-    private String code;
-    private double mid;
-    private String effectiveDate;
 }

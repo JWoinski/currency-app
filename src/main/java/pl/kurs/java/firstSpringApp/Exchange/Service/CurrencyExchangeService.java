@@ -3,9 +3,11 @@ package pl.kurs.java.firstSpringApp.Exchange.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeForm;
+import pl.kurs.java.firstSpringApp.Exchange.Model.CurrencyExchangeRatesForm;
 import pl.kurs.java.firstSpringApp.Exchange.Model.Rate;
 import pl.kurs.java.firstSpringApp.Exchange.Model.Root;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CurrencyExchangeService {
     private final RestCurrencyApiService restCurrencyApiService;
-//    private final DBService dbService;
     private Root root;
 
     public List<String> getListCodeCurrencies() {
@@ -50,10 +51,6 @@ public class CurrencyExchangeService {
             throw new IllegalArgumentException("Null values in ExchangeForm");
         }
         refreshCurrencyRates();
-        //TODO SPY
-
-        //deploy to heroku, do not need it for expose on website
-//        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
 
         if (currencyFrom.equals(currencyTo)) {
             return amount;
@@ -85,5 +82,41 @@ public class CurrencyExchangeService {
 
     private void refreshCurrencyRates() {
         root = restCurrencyApiService.getApiResponse();
+    }
+
+    public List<Rate> getExchangeRatesForDatePeriod(CurrencyExchangeRatesForm exchangeRatesForm) {
+        LocalDate startDate = LocalDate.parse(exchangeRatesForm.getStartDate());
+        LocalDate endDate = LocalDate.parse(exchangeRatesForm.getEndDate());
+        if(startDate.isAfter(LocalDate.now()) ||
+                endDate.isAfter(LocalDate.now()) ||
+                startDate.isAfter(endDate) ||
+                startDate.isEqual(endDate)){
+            return List.of();
+        }
+        return restCurrencyApiService.getApiResponse(exchangeRatesForm.getCurrency(), exchangeRatesForm.getStartDate(), exchangeRatesForm.getEndDate()).getRates();
+    }
+
+    public String getChartData(CurrencyExchangeRatesForm exchangeRatesForm) {
+        List<Rate> exchangeRatesForDatePeriod = getExchangeRatesForDatePeriod(exchangeRatesForm);
+
+        if (exchangeRatesForDatePeriod == null || exchangeRatesForDatePeriod.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder dates = new StringBuilder("[");
+        StringBuilder rates = new StringBuilder("[");
+
+        for (Rate rate : exchangeRatesForDatePeriod) {
+            dates.append("\"").append(rate.getEffectiveDate()).append("\",");
+            rates.append(rate.getMid()).append(",");
+        }
+
+        dates.deleteCharAt(dates.length() - 1);
+        rates.deleteCharAt(rates.length() - 1);
+
+        dates.append("]");
+        rates.append("]");
+
+        return "{ \"labels\": " + dates + ", \"data\": " + rates + " }";
     }
 }
