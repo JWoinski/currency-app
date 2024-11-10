@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CurrencyExchangeService {
     private final RestCurrencyApiService restCurrencyApiService;
-    private final DBService dbService;
+//    private final DBService dbService;
     private Root root;
 
     public List<String> getListCodeCurrencies() {
@@ -51,7 +51,9 @@ public class CurrencyExchangeService {
         }
         refreshCurrencyRates();
         //TODO SPY
-        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
+
+        //deploy to heroku, do not need it for expose on website
+//        dbService.saveDetailsOfExchangeToDB(exchangeForm, valueExchangeInPLN);
 
         if (currencyFrom.equals(currencyTo)) {
             return amount;

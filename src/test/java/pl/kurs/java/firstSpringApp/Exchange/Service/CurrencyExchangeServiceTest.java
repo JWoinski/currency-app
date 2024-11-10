@@ -20,8 +20,8 @@ import static org.mockito.Mockito.when;
 class CurrencyExchangeServiceTest {
     @Mock
     private RestCurrencyApiService restCurrencyApiService;
-    @Mock
-    private DBService dbService;
+//    @Mock
+//    private DBService dbService;
 
     @InjectMocks
     private CurrencyExchangeService currencyExchangeService;
@@ -38,7 +38,7 @@ class CurrencyExchangeServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         when(restCurrencyApiService.getApiResponse()).thenReturn(createMockRoots());
-        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService, dbService);
+        currencyExchangeService = new CurrencyExchangeService(restCurrencyApiService);
         currencyExchangeService.getListCodeCurrencies();
     }
 

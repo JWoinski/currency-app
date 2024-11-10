@@ -18,11 +18,11 @@ public class BeanConfig {
     }
 
 
-    @Bean
-    public Connection connection() throws SQLException {
-        final String url = "jdbc:mysql://localhost:3306/exchange_office";
-        final String username = "root";
-        final String password = "rootroot#123";
-        return getConnection(url, username, password);
-    }
+//    @Bean
+//    public Connection connection() throws SQLException {
+//        final String url = "jdbc:mysql://localhost:3306/exchange_office";
+//        final String username = "root";
+//        final String password = "rootroot#123";
+//        return getConnection(url, username, password);
+//    }
 }
