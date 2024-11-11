@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Currency Exchange</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
@@ -268,11 +268,11 @@
                     th:value="${currency}"></option>
         </select>
 
-        <label for="start-date">Start Date:</label>
-        <input id="start-date" th:field="*{startDate}" type="date">
+        <label for="date-range">Select Date Range:</label>
+        <input id="date-range" name="dateRange" type="text" placeholder="Select date range" />
 
-        <label for="end-date">End Date:</label>
-        <input id="end-date" th:field="*{endDate}" type="date">
+        <input type="hidden" id="start-date" name="startDate" th:field="*{startDate}">
+        <input type="hidden" id="end-date" name="endDate" th:field="*{endDate}">
 
         <button type="submit">Get Exchange Rates</button>
     </form>
@@ -403,6 +403,22 @@
             return;
         }
     }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Inicjalizacja flatpickr na elemencie "date-range"
+    flatpickr("#date-range", {
+        mode: "range", // Włącza wybór zakresu
+        dateFormat: "Y-m-d", // Ustawienie formatu daty
+        maxDate: "today", // Ustawienie maksymalnej daty na dzisiejszy dzień
+        onChange: function(selectedDates) {
+            if (selectedDates.length === 2) {
+                // Konwertuje wybrane daty na wartości dla start i end date w formie
+                document.getElementById("start-date").value = selectedDates[0].toISOString().split('T')[0];
+                document.getElementById("end-date").value = selectedDates[1].toISOString().split('T')[0];
+            }
+        }
+    });
 </script>
 </body>
 </html>
