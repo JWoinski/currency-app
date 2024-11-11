@@ -56,12 +56,12 @@
         }
 
         .container {
-            flex: 1; /* Dynamiczna wysokość */
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-bottom: 20px; /* Opcjonalnie dla estetyki */
+            padding-bottom: 20px;
         }
 
         h1 {
@@ -121,20 +121,40 @@
             background-color: #2c5282;
         }
 
-        div[th\\:if] {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 4px;
+        div[th\\:if
+
+        ]
+        {
+            margin-top: 20px
+        ;
+            padding: 10px
+        ;
+            border-radius: 4px
+        ;
         }
 
-        div[th\\:if="${result}"] {
-            background-color: #c6f6d5;
-            color: #2f855a;
+        div[th\\:if
+
+        =
+        "${result}"
+        ]
+        {
+            background-color: #c6f6d5
+        ;
+            color: #2f855a
+        ;
         }
 
-        div[th\\:if="${error}"] {
-            background-color: #fed7d7;
-            color: #c53030;
+        div[th\\:if
+
+        =
+        "${error}"
+        ]
+        {
+            background-color: #fed7d7
+        ;
+            color: #c53030
+        ;
         }
 
         footer {
@@ -194,6 +214,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: block;
         }
+
         .result-container {
             max-width: 100%;
             width: 100%;
@@ -212,6 +233,7 @@
         .result-container p {
             margin: 0;
         }
+
         @media (max-width: 768px) {
             footer {
                 padding: 8px;
@@ -269,7 +291,7 @@
         </select>
 
         <label for="date-range">Select Date Range:</label>
-        <input id="date-range" name="dateRange" type="text" placeholder="Select date range" />
+        <input id="date-range" name="dateRange" type="text" placeholder="Select date range"/>
 
         <input type="hidden" id="start-date" name="startDate" th:field="*{startDate}">
         <input type="hidden" id="end-date" name="endDate" th:field="*{endDate}">
@@ -334,7 +356,6 @@
     var parsedData = JSON.parse(chartData);
 
     if (parsedData && parsedData.labels && parsedData.data) {
-        // Jeśli dane są dostępne, renderujemy wykres
 
         var ctx = document.getElementById('currencyChart').getContext('2d');
         var currencyChart = new Chart(ctx, {
@@ -371,10 +392,8 @@
     } else {
         console.log("Brak danych do wyświetlenia wykresu.");
     }
-    // Walidacja formularza
     document.getElementById("currency-form").onsubmit = function (event) {
 
-        // Walidacja dat
         var startDate = document.querySelector('[name="startDate"]').value;
         var endDate = document.querySelector('[name="endDate"]').value;
         var today = new Date().toISOString().split('T')[0]; // dzisiejsza data w formacie YYYY-MM-DD
@@ -400,20 +419,19 @@
         if (startDate === endDate) {
             event.preventDefault();
             alert('Type dates longer than 1 day.');
-            return;
+
         }
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    // Inicjalizacja flatpickr na elemencie "date-range"
     flatpickr("#date-range", {
-        mode: "range", // Włącza wybór zakresu
-        dateFormat: "Y-m-d", // Ustawienie formatu daty
-        maxDate: "today", // Ustawienie maksymalnej daty na dzisiejszy dzień
-        onChange: function(selectedDates) {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        maxDate: "today",
+        onChange: function (selectedDates) {
             if (selectedDates.length === 2) {
-                // Konwertuje wybrane daty na wartości dla start i end date w formie
+
                 document.getElementById("start-date").value = selectedDates[0].toISOString().split('T')[0];
                 document.getElementById("end-date").value = selectedDates[1].toISOString().split('T')[0];
             }
