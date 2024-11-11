@@ -15,12 +15,7 @@
             background-color: #f3f4f6;
             color: #333;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            flex-direction: column;
+            padding: 20px;
         }
 
         #welcome-modal {
@@ -61,10 +56,12 @@
         }
 
         .container {
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
+            flex: 1; /* Dynamiczna wysokość */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px; /* Opcjonalnie dla estetyki */
         }
 
         h1 {
@@ -79,6 +76,9 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: left;
+            width: 100%;
+            max-width: 100%;
+            margin: 10px 0;
         }
 
         form p {
@@ -138,8 +138,6 @@
         }
 
         footer {
-            position: fixed;
-            bottom: 0;
             width: 100%;
             background-color: #f3f4f6;
             padding: 10px;
@@ -147,6 +145,9 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
+            box-sizing: border-box;
+            position: sticky;
+            bottom: 0;
         }
 
         .footer-left {
@@ -155,6 +156,8 @@
 
         .footer-right {
             margin-right: 10px;
+            display: flex;
+            align-items: center;
         }
 
         .footer-right a {
@@ -192,7 +195,7 @@
             display: block;
         }
         .result-container {
-            max-width: 400px;
+            max-width: 100%;
             width: 100%;
             padding: 20px;
             background-color: #e6fffa;
@@ -203,33 +206,42 @@
             font-weight: bold;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-top: 20px;
         }
 
         .result-container p {
             margin: 0;
         }
         @media (max-width: 768px) {
-            .container {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 20px;
+            footer {
+                padding: 8px;
+                font-size: 0.85rem;
             }
 
-            form {
-                width: 100%;
-                max-width: 100%;
-                margin: 10px 0;
-            }
-
+            .footer-left,
             .footer-right {
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-                margin-right: 0;
+                margin: 0 5px;
             }
 
-            #currencyChart {
-                margin-top: 20px;
+            .footer-right a {
+                font-size: 1rem;
+                margin-left: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            footer {
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+
+            .footer-right a {
+                font-size: 0.9rem;
+            }
+
+            .footer-right .cv-button {
+                padding: 4px 8px;
+                font-size: 0.8rem;
             }
         }
 
