@@ -191,7 +191,23 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: block;
         }
+        .result-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 8px;
+            color: #2c7a7b;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
+        .result-container p {
+            margin: 0;
+        }
         @media (max-width: 768px) {
             .container {
                 display: flex;
@@ -216,6 +232,7 @@
                 margin-top: 20px;
             }
         }
+
     </style>
 </head>
 
@@ -271,8 +288,8 @@
         <button type="submit">Calculate</button>
     </form>
 
-    <div th:if="${result}">
-        <p th:text="'Result:' + ${result}"></p>
+    <div class="result-container" th:if="${result}">
+        <p th:text="'Result: ' + ${result}"></p>
     </div>
     <div th:if="${error}">
         <p th:text="${error}"></p>
@@ -331,7 +348,7 @@
                     y: {
                         title: {
                             display: true,
-                            text: 'Exchange Rate'
+                            text: 'Exchange Rate (PLN)'
                         }
                     }
                 }
@@ -350,7 +367,6 @@
         var endDate = document.querySelector('[name="endDate"]').value;
         var today = new Date().toISOString().split('T')[0]; // dzisiejsza data w formacie YYYY-MM-DD
 
-        // Jeśli startDate jest późniejsza niż dzisiaj
         if (startDate > today) {
             event.preventDefault();
             alert('Start date cannot be later than today.');
@@ -363,14 +379,12 @@
             return;
         }
 
-        // Jeśli startDate jest późniejsza niż endDate
         if (startDate > endDate) {
             event.preventDefault();
             alert('Start date cannot be after end date.');
             return;
         }
 
-        // Jeśli startDate jest taka sama jak endDate
         if (startDate === endDate) {
             event.preventDefault();
             alert('Type dates longer than 1 day.');
