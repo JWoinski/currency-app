@@ -1,12 +1,12 @@
 # Currency Exchange Application
 
-A simple currency exchange application built with **Spring Boot** that retrieves real-time exchange rates using the NBP (Narodowy Bank Polski) API. Users can convert currencies and visualize historical exchange rates using the application interface.
+#### A simple currency exchange application built with **Spring Boot** that retrieves real-time exchange rates using the NBP (Narodowy Bank Polski) API. Users can convert currencies and visualize historical exchange rates using the application interface.
 
 ---
 
-# App is avaibale under this link:
+# App is available under this link:
 
-http://bit.ly/4hA2G2J
+### http://bit.ly/4hA2G2J
 
 # Home page screenshot
 ![home-page.png](src/main/resources/templates/home-page.png)
