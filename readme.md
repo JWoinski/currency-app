@@ -16,7 +16,7 @@
 
 # Exchange rates (example: 50 USD to PLN )
 ![exchange-rates.png](src/main/resources/templates/exchange-rates.png)
-## Features
+## Features     
 - ### Fetch current currency exchange rates.
 - ### Convert amounts between selected currencies.
 - ### View historical rates within a specified date range.
